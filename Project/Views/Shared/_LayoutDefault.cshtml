@@ -1,0 +1,259 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Electro - HTML Ecommerce Template</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="../resources/css/bootstrap.min.css" />
+
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" href="../resources/css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="../resources/css/slick-theme.css" />
+
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" href="../resources/css/nouislider.min.css" />
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="../resources/css/font-awesome.min.css">
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="../resources/css/style.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<!-- HEADER -->
+	<header>
+		<!-- TOP HEADER -->
+		<div id="top-header">
+			<div class="container">
+				<ul class="header-links pull-left">
+					<li><a href="#"><i class="fa fa-phone"></i> +8412345678</a></li>
+					<li><a href="#"><i class="fa fa-envelope-o"></i> dinhanhtien05082002@gmail.com</a></li>
+					<li><a href="#"><i class="fa fa-map-marker"></i>210 Quang Trung- Hà Đông - Hà Nội</a></li>
+				</ul>
+				<ul class="header-links pull-right">
+					@if (Accessor.HttpContext.Session.GetString("UserName") == null)
+					{
+						<li><a href="../access/login"><i class="fa fa-user-o"></i>Sign in</a></li>
+					}
+					else
+					{
+						<li><a href="#"><i class="fa fa-user-o"></i>@(Accessor.HttpContext.Session.GetString("UserName"))</a></li>
+						<li><a asp-controller="access" asp-action="logout">Sign out</a></li>
+					}
+				</ul>
+			</div>
+		</div>
+		<!-- /TOP HEADER -->
+		<!-- MAIN HEADER -->
+		<div id="header">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- LOGO -->
+					<div class="col-md-3">
+						<div class="header-logo">
+							<a href="#" class="logo">
+								<img src="./img/logo.png" alt="">
+							</a>
+						</div>
+					</div>
+					<!-- /LOGO -->
+					<!-- SEARCH BAR -->
+					<div class="col-md-6">
+						<div class="header-search">
+							<form>
+								<input class="input" id="search-input" placeholder="Find your product yout want" style="width: 450px;">
+								<button class="search-btn" type="button">Search</button>
+							</form>
+						</div>
+					</div>
+					<!-- /SEARCH BAR -->
+					<!-- ACCOUNT -->
+					<div class="col-md-3 clearfix">
+						<div class="header-ctn">
+							<!-- Cart -->
+							<div>
+								<a href="../cart" aria-expanded="true">
+									<i class="fa fa-shopping-cart"></i>
+									<span>Your Cart</span>
+									<div class="qty"></div>
+								</a>
+							</div>
+							<!-- /Cart -->
+						</div>
+					</div>
+					<!-- /ACCOUNT -->
+				</div>
+				<!-- row -->
+			</div>
+			<!-- container -->
+		</div>
+		<!-- /MAIN HEADER -->
+	</header>
+	<!-- /HEADER -->
+	<!-- BODY-->
+	<main>
+		@RenderBody()
+	</main>
+	<!-- /BODY-->
+	<!-- FOOTER -->
+	<footer id="footer">
+		<!-- top footer -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">About Us</h3>
+							<ul class="footer-links">
+								<li><a href="#"><i class="fa fa-map-marker"></i>CT4A Bắc Linh Đàm - Hoàng Mai - Hà Nộid</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i>+0123 456 890</a></li>
+								<li><a href="#"><i class="fa fa-envelope-o"></i>trungpro@email.com</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">Categories</h3>
+							<ul class="footer-links">
+								<li><a href="danhmucsanpham">Laptops</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="clearfix visible-xs"></div>
+
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">Information</h3>
+							<ul class="footer-links">
+								<li><a href="#">Đinh Anh Tiến</a></li>
+								<li><a href="#">Phạm Việt Trung</a></li>
+								<li><a href="#">Nguyễn Thị Phương Anh</a></li>
+								<li><a href="#">Bùi Tố Uyên</a></li>
+								<li><a href="#">Đinh Nguyễn Tùng Duy</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+						@*	<h3 class="footer-title">Service</h3>*@
+							@*<ul class="footer-links">
+								<li><a href="#">My Account</a></li>
+								<li><a href="#">View Cart</a></li>
+								<li><a href="#">Wishlist</a></li>
+								<li><a href="#">Track My Order</a></li>
+								<li><a href="#">Help</a></li>
+							</ul>*@
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /top footer -->
+		<!-- bottom footer -->
+		<div id="bottom-footer" class="section">
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<ul class="footer-payments">
+							<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+							<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+							<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+							<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+							<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+							<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+						</ul>
+						<span class="copyright">
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						</span>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /bottom footer -->
+	</footer>
+	<!-- /FOOTER -->
+	<!-- jQuery Plugins -->
+	<script src="../resources/js/jquery.min.js"></script>
+	<script src="../resources/js/bootstrap.min.js"></script>
+	<script src="../resources/js/slick.min.js"></script>
+	<script src="../resources/js/nouislider.min.js"></script>
+	<script src="../resources/js/jquery.zoom.min.js"></script>
+	<script src="../resources/js/main.js"></script>
+	<script src="../resources/js/pagination.js"></script>
+	<script>
+		const formatMoney = (amount) => {
+			return new Intl.NumberFormat('vi-VN', {
+				style: 'currency',
+				currency: 'VND'
+			}).format(amount);
+		}	
+		const getAllCartProducts = () => {
+			let cartGetUrl = `https://localhost:7019/api/cart`;
+			$.ajax({
+				type: "GET",
+				url: cartGetUrl,
+				dataType: "json",
+				success: (data) => {	
+					if(data.length > 0)  {
+						$(".qty").css("opacity", 1);
+						$(".qty").text(data.length); 
+					}
+					
+				}
+			})
+		}
+		const handleSearchInput = () => {
+			let query = $("#search-input").val().trim();
+			let url = "";
+			if(query == "") {
+				url = `https://localhost:7019/danhmucsanpham`;
+			}else {
+				url = `https://localhost:7019/danhmucsanpham?query=${query}`;
+			}
+			window.location.href = url; 
+		}
+		$(document).ready(function () {
+			$(".qty").css("opacity", 0);
+			getAllCartProducts(); 
+			$(".search-btn").click(function() {
+				handleSearchInput(); 
+			})
+		})
+	</script>
+
+</body>
+</html>
+

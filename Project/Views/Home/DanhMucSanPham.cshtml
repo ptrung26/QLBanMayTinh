@@ -1,0 +1,339 @@
+﻿@using System.Globalization;
+@model List<Hang>
+@{
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml"; 
+}
+	<!-- BREADCRUMB -->
+	<div id="breadcrumb" class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<ul class="breadcrumb-tree">
+						<li><a href="home">Home</a></li>
+						<li><a href="danhmucsanpham">All Categories</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /BREADCRUMB -->
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- ASIDE -->
+				<div id="aside" class="col-md-3">
+					<!-- aside Widget -->
+					<div class="aside">
+						<h3 class="aside-title">Categories</h3>
+					<div class="checkbox-filter" id="showCategoryFilter">
+							@await Component.InvokeAsync("FilterCategory")
+							@*<div class="input-checkbox">
+								<input type="checkbox" id="category-1">
+								<label for="category-1">
+									<span></span>
+									Laptops
+									<small>(120)</small>
+								</label>
+							</div>*@
+						</div>
+
+					</div>
+					<!-- /aside Widget -->
+					<!-- aside Widget -->
+					<div class="aside">
+						<h3 class="aside-title">Price</h3>
+						<div class="price-filter">
+							@*<div id="price-slider"></div>*@
+							<div class="input-number price-min">
+							<input id="price-min" type="number" value="@ViewBag.priceMin">
+								<span class="qty-up">+</span>
+								<span class="qty-down">-</span>
+							</div>
+							<span>-</span>
+							<div class="input-number price-max">
+								<input id="price-max" type="number" value="@ViewBag.priceMax">
+								<span class="qty-up">+</span>
+								<span class="qty-down">-</span>
+							</div>
+						</div>
+					</div>
+					<!-- /aside Widget -->
+					<!-- aside Widget -->
+					<div class="aside" id="showTopSellCategory">
+						@*<h3 class="aside-title">Top selling</h3>*@
+						@*<div class="product-widget">
+							<div class="product-img">
+								<img src="../resources/img/product01.png" alt="">
+							</div>
+							<div class="product-body">
+								<p class="product-category">Category</p>
+								<h3 class="product-name"><a href="#">product name goes here</a></h3>
+								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+							</div>
+						</div>*@
+					</div>
+					<!-- /aside Widget -->
+				</div>
+				<!-- /ASIDE -->
+				<!-- STORE -->
+				<div id="store" class="col-md-9">
+					<!-- store top filter -->
+					@*<div class="store-filter clearfix">
+						<div class="store-sort">
+							<label>
+								Sort By:
+								<select class="input-select">
+									<option value="0">Popular</option>
+									<option value="1">Position</option>
+								</select>
+							</label>
+
+							<label>
+								Show:
+								<select class="input-select">
+									<option value="0">20</option>
+									<option value="1">50</option>
+								</select>
+							</label>
+						</div>
+					</div>*@
+					<!-- /store top filter -->
+					<!-- store products -->
+					<div class="row">
+					@foreach(var item in Model)
+					{
+						var giaMoi = 0.7 * item.DonGiaBan; 
+						<div class="col-md-4 col-xs-6">
+							<div class="product">
+								<div class="product-img">
+									<img src="../../imageBTL/@item.AnhDaiDien" alt="">
+									<div class="product-label">
+										<span class="sale">-30%</span>
+										<span class="new">NEW</span>
+									</div>
+								</div>
+								<div class="product-body">
+									<h3 class="product-name"><a href="product/@item.MaHang">@item.TenHang</a></h3>
+									<h4 class="product-price">@giaMoi.Value.ToString("#,##0") đ <del class="product-old-price">@item.DonGiaBan.Value.ToString("#,##0") đ </del></h4>
+									<div class="product-rating">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+									</div>
+									<div class="product-btns">
+										<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+										<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+										<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+									</div>
+								</div>
+								<div class="add-to-cart">
+									<button class="add-to-cart-btn" onclick="handleToAddToCard('@item.MaHang')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+								</div>
+							</div>
+						</div>
+					}
+						<!-- /product -->
+					</div>
+					<!-- /store products -->
+					<!-- store bottom filter -->
+					<div class="store-filter clearfix">
+						<ul class="store-pagination">
+							@for(int i = 1; i <= ViewBag.totalPages; ++i)
+							{
+								 var routeValues = new RouteValueDictionary();
+								if(ViewBag.priceMin != null)
+								{
+									routeValues.Add("priceMin", ViewBag.priceMin); 
+								}
+								if(ViewBag.priceMax != null)
+								{
+									routeValues.Add("priceMax", ViewBag.priceMax);
+								}
+							if (ViewBag.madanhmuc != null)
+								{
+									routeValues.Add("madanhmuc", ViewBag.madanhmuc);
+								}
+								routeValues.Add("page", i);
+								if (i == ViewBag.currentPage)
+								{
+									<li class="active"><a href="@Url.Action("DanhMucSanPham", routeValues)">@i</a></li>
+								} else
+								{
+									<li><a href="@Url.Action("DanhMucSanPham", routeValues)">@i</a></li>
+								}
+
+							}
+							<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+						</ul>
+					</div>
+					<!-- /store bottom filter -->
+				</div>
+				<!-- /STORE -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+	<!-- NEWSLETTER -->
+	<div id="newsletter" class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="newsletter">
+						<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+						<form>
+							<input class="input" type="email" placeholder="Enter Your Email">
+							<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+						</form>
+						<ul class="newsletter-follow">
+							<li>
+								<a href="#"><i class="fa fa-facebook"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-instagram"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-pinterest"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /NEWSLETTER -->
+<script>
+	
+	const setFilterProductsByInput = (type, input) => {
+		const query = $(input).val().replace(/[\n\t]/g, '');
+		const queryString = window.location.search
+		const urlParams = new URLSearchParams(queryString);
+		urlParams.set(type, query);
+		const newUrl = window.location.pathname + '?' + urlParams.toString();
+		window.location.href = newUrl;
+	}
+
+
+	const getTopProductSell = (url, id) => {
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "json",
+			success: (data) => {
+				let str = `<h3 class="aside-title">Top selling</h3>`;
+				$.each(data, (key, value) => {
+					str += `<div class="product-widget">
+								<div class="product-img">
+									<img src="../imageBTL/${value.anhDaiDien}" alt="">
+								</div>
+								<div class="product-body">
+										<h3 class="product-name"><a href="product/${value.maHang}">${value.tenHang}</a></h3 >
+												<h4 class="product-price">${formatMoney(0.7*value.donGiaBan)} <del class="product-old-price">${formatMoney(value.donGiaBan)}</del></h4>
+								</div>
+							</div>`
+				});
+				$(`${id}`).html(str);
+
+				$('.products-slick').each(function () {
+					var $this = $(this),
+						$nav = $this.attr('data-nav');
+
+					$this.slick({
+						slidesToShow: 4,
+						slidesToScroll: 1,
+						autoplay: true,
+						infinite: true,
+						speed: 300,
+						dots: false,
+						arrows: true,
+						appendArrows: $nav ? $nav : false,
+						responsive: [{
+							breakpoint: 991,
+							settings: {
+								slidesToShow: 2,
+								slidesToScroll: 1,
+							}
+						},
+						{
+							breakpoint: 480,
+							settings: {
+								slidesToShow: 1,
+								slidesToScroll: 1,
+							}
+						},
+						]
+					});
+				});
+			}
+
+		})
+	}
+
+	const handleToAddToCard = (productId) => {
+		let cartPostUrl = `https://localhost:7019/api/cart?mahang=${productId}&quatity=1`;
+		$.ajax({
+			type: "POST",
+			url: cartPostUrl,
+			dataType: 'json',
+			contentType: "application/json",
+			success: () => {
+				let cartGetUrl = `https://localhost:7019/api/cart`;
+				$.ajax({
+					type: "GET",
+					url: cartGetUrl,
+					dataType: "json",
+					success: (data) => {
+						let str = "";
+						$.each(data, (key, val) => {
+							str += `<div class="product-widget">
+											<div class="product-img">
+												<img src="../imageBTL/${val.Anh}" alt="">
+											</div>
+											<div class="product-body">
+												<h3 class="product-name"><a href="#">${val.tenHang}</a></h3>
+												<h4 class="product-price">${formatMoney(val.donGiaBan)}<span class="qty"> ${val.soLuong}</span></h4>
+											</div>
+											<button class="delete"><i class="fa fa-close"></i></button>
+										</div>`
+						})
+						$("#CartPdOverview").html(str);
+						alert("Thêm vào giỏ hàng thành công");
+					}
+				})
+			}
+		})
+	}
+
+	$(document).ready(function () {
+		getTopProductSell("https://localhost:7019/api/productapi/topsellproducts", "#showTopSellCategory")
+
+		$("#price-min").change(function() {
+			setFilterProductsByInput("priceMin", $(this)); 
+		})
+
+		$("#price-max").change(function () {
+			setFilterProductsByInput("priceMax", $(this));
+		})
+
+
+		
+	});
+
+</script>

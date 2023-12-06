@@ -1,0 +1,54 @@
+﻿@model IEnumerable<BTLWEB.Models.ChiTietGh>
+
+@{
+    ViewData["Title"] = "ChiTietGioHang";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+
+<h1>ChiTietGioHang</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DonGia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaGhNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaHangNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonGia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaGhNavigation.MaGh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHangNavigation.MaHang)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

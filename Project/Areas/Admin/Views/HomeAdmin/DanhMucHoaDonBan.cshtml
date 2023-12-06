@@ -1,0 +1,70 @@
+﻿@using BTLWEB.Models
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Hdban>
+@using Microsoft.EntityFrameworkCore;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "DanhMucHoaDonBan";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Danh mục hóa đơn bán</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Mã hóa đơn bán
+            </th>
+            <th>
+                Ngày lập
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+            <th>
+                Mã Khách Hàng
+            </th>
+            <th>
+                Mã nhân viên
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHdb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayLap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @if (item.MaKhNavigation != null)
+                {
+                    @Html.DisplayFor(modelItem => item.MaKhNavigation.MaKh)
+                }
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.MaNvNavigation.MaNv)
+             </td>
+            <td>
+               @* <a asp-action="Edit" asp-route-id="@item.MaHdb">Edit</a> |*@
+                <a asp-action="ChiTietHoaDonBan" asp-route-maHdb="@item.MaHdb">Details</a>
+               @* <a asp-action="Delete" asp-route-id="@item.MaHdb">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@Html.PagedListPager(Model,page => Url.Action("DanhMucHoaDonBan", new {page=page}),new X.PagedList.Web.Common.PagedListRenderOptions(){
+	LiElementClasses = new List<String> {"page-item"},
+	PageClasses = new List<String> {"page-link"}
+})

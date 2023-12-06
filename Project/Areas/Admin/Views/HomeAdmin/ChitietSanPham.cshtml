@@ -1,0 +1,105 @@
+﻿@model BTLWEB.Models.Hang
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "ChitietSanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Chi Tiết Sản Phẩm</h1>
+
+<div>
+    <h4>Hang</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Tên hàng
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TenHang)
+        </dd>
+        <dt class="col-sm-2">
+            Ảnh
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Url.Content("~/imageBTL/" + Model.AnhDaiDien)" alt="@Model.TenHang" width="150" height="150" />
+        </dd>
+        <dt class="col-sm-2">
+            Đơn giá nhập
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DonGiaNhap)
+        </dd>
+        <dt class="col-sm-2">
+            Đơn giá bán
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DonGiaBan)
+        </dd>
+        <dt class="col-sm-2">
+            RAM
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ram)
+        </dd>
+        <dt class="col-sm-2">
+            Ổ cứng
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ocung)
+        </dd>
+        <dt class="col-sm-2">
+            Card đồ họa
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CardDoHoa)
+        </dd>
+        <dt class="col-sm-2">
+            CPU
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cpu)
+        </dd>
+        <dt class="col-sm-2">
+            Màn hình
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ManHinh)
+        </dd>
+        <dt class="col-sm-2">
+            Số lượng tồn
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Slton)
+        </dd>
+        <dt class="col-sm-2">
+            Thời gian bảo hành
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ThoiGianBaoHanh)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLanMua)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SoLanMua)
+        </dd>
+        <dt class="col-sm-2">
+            Mô tả
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MoTa)
+        </dd>
+        <dt class="col-sm-2">
+            Tên danh mục
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaDanhMucNavigation.TenDanhMuc)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="SuaSanPham" asp-route-maHang="@Model?.MaHang">Edit</a> |
+    <a asp-action="danhmucsanpham">Back to List</a>
+</div>

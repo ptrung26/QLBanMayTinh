@@ -1,0 +1,80 @@
+﻿@using BTLWEB.Models
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Hang>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "DanhMucSanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh mục sản phẩm</h2>
+
+<p>
+    <a asp-action="ThemSanPham">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th> 
+                Ảnh
+            </th>
+            <th>
+                Tên Hàng
+            </th>
+            <th>
+                Đơn giá nhập
+            </th>
+            <th>
+                Đơn giá bán
+            </th>
+            <th>
+                Hãng sản xuất
+            </th>
+            <th>
+                Số lượng tồn
+            </th>
+            <th>
+                Thời gian bảo hành
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="@Url.Content("~/imageBTL/" + item.AnhDaiDien)" alt="@item.TenHang" width="70" height="70" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHang)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonGiaNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonGiaBan)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenHang)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slton)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGianBaoHanh)
+            </td>
+            
+            <td>
+                <a asp-action="SuaSanPham" asp-route-maHang="@item.MaHang">Edit</a> |
+                <a asp-action="ChitietSanPham" asp-route-maHang="@item.MaHang">Details</a> |
+                <a asp-action="XoaSanPham" asp-route-maHang="@item.MaHang">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@Html.PagedListPager(Model,page => Url.Action("DanhMucSanPham", new {page=page}),new X.PagedList.Web.Common.PagedListRenderOptions(){
+	LiElementClasses = new List<String> {"page-item"},
+	PageClasses = new List<String> {"page-link"}
+})

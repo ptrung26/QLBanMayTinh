@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewData["Title"] = "GioHang";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="home">Home</a></li>
+                    <li class="active">Cart</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<div style="max-width: 1000px; margin: 50px auto;">
+    <div class="line" style="display:flex; align-items:center;padding: 10px 18px;border-bottom: 2px solid #ccc">
+        <div style="width: 12%;"></div>
+        <div style="width: 25%;">
+            <p style="margin: 0;font-weight: 600;font-size: 16px;">Tên sản phẩm</p>
+        </div>
+        <div style="width:20%;">
+            <p style="margin: 0;font-weight: 600;font-size: 16px">Đơn giá</p>
+        </div>
+        <div style="width: 20%;">
+            <p style="margin: 0;font-weight: 600;font-size: 16px">Số lượng</p>
+        </div>
+        <div style="width: 10%;">
+            <p style="margin: 0;font-weight: 600;font-size: 16px">Tổng tiền</p>
+        </div>
+
+    </div >
+    <div id="showPcart">
+        
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center; padding-top:10px; border-top:1px solid #ccc;">
+        <div><strong style="font-size:22px;">TOTAL</strong></div>
+        <div><strong style="font-size:22px; color:#D10024;" class="cart-total-price">0</strong></div>
+    </div>
+
+    <button class="checkout-btn" onclick="addProductToCheckout()">Checkout</button>
+</div>
+
+<script>
+
+    const showProductCart = () => {
+        let url = `https://localhost:7019/api/cart`; 
+        $.ajax({
+            type: "GET", 
+            url : url, 
+            dataType : 'json', 
+            success : (data) => {
+                let str = ``; 
+                $.each(data, (key, val) => {
+                    str += `<div style="display:flex; align-items:center;padding: 10px 18px;" class="pCart-item">
+                <div style="width: 12%;">
+                        <input type="checkbox" class="cb-pcart" style="width: 20px; height: 20px;" value="${val.donGiaBan}" data-tenhang="${val.tenHang}" onchange="handleToCalTotalPrice()" />
+                </div>
+                <div style="width: 25%;">
+                    <div style="display: flex; align-items:center; gap:0 20px;">
+                            <img src="../imageBTL/${val.anh}" style="width: 80px; height: 80px;" />
+                            <p style="margin: 0; font-size: 16px;font-weight:bold">${val.tenHang}</p>
+                    </div>
+                </div>
+                <div style="width: 20%;">
+                        <p style="margin: 0; font-size: 16px;">${formatMoney(val.donGiaBan)}</p>
+                </div>
+                <div style="width: 20%;">
+                    <div class="input-number" style="width: 120px">
+                                <input type="number" value="${val.soLuong}" class="pcart-quatity" onchange="handleToCalTotalPrice()">
+                        <span class="qty-up">+</span>
+                        <span class="qty-down">-</span>
+                    </div>
+                </div>
+                <div style="width: 15%;">
+                        <p style="margin: 0; font-size: 16px;" class="item-total-price">${val.soLuong * val.donGiaBan}</p>
+                </div>
+                <div style="flex:1;">
+                    <p
+                        style="margin: 0; text-align:right; font-size:16px; width:80px;cursor:pointer;"
+                        onmouseover="this.style.color='#ee4d2d';" onmouseout="this.style.color='#333333';"
+                        onclick="deleteProductItemCart('${val.maHang}')">Xóa</p>
+                    </div>
+
+            </div>`
+                })
+                $("#showPcart").html(str);
+                handleToCalTotalPrice();
+            },
+            error : () => {
+                alert("ERROR");
+            }
+        })
+    }
+
+    const handleToCalTotalPrice = () => {
+        var total = 0;
+        // Lặp qua từng hàng trong bảng giỏ hàng để tính lại tổng giá tiền
+        $('.pCart-item').each(function () {
+            var price = parseInt($(this).find('.cb-pcart').val());
+            var quantity = parseInt($(this).find('.pcart-quatity').val());
+
+            if ($(this).find('.cb-pcart').is(':checked')) {
+                total += price * quantity;
+            }
+
+            $(this).find('.item-total-price').text(formatMoney(price * quantity));
+        });
+
+        // Cập nhật tổng giá tiền
+        $('.cart-total-price').text(formatMoney(total));
+
+    }
+
+    const addProductToCheckout = () => {
+        let lst = []; 
+        $(".cb-pcart:checked").each(function() {
+             let tenHang = $(this).data("tenhang");
+             let donGia = $(this).val(); 
+             let pd = {
+                 tenHang, 
+                 donGia
+             }
+            lst.push(pd);
+        })
+        sessionStorage.setItem('selectedProducts', JSON.stringify(lst));
+        sessionStorage.setItem('totalPrice', $('.cart-total-price').text());
+        window.location.href = "https://localhost:7019/checkout"; 
+        
+    }
+
+    const deleteProductItemCart  = (mahang) =>  {
+        let url = `https://localhost:7019/api/cart/${mahang}`; 
+        $.ajax({
+            type : 'GET',
+            url : url, 
+            dataType : 'json', 
+            success : () => {
+                alert("Xóa sản phẩm thành công"); 
+                showProductCart();
+
+            }, 
+            error : () => {
+                alert("Xóa sản phẩm không thành công"); 
+           
+            }
+        })
+    }
+
+    $(document).ready(function() {
+        showProductCart();
+        
+    })
+</script>

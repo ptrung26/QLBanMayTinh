@@ -1,0 +1,63 @@
+﻿@using BTLWEB.Models
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<KhachHang>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "DanhMucKhachHang";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Danh mục khách hàng</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên khách hàng
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Đại chỉ
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Tên tài khoản
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenKh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sdt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenTaiKhoanNavigation.TenTaiKhoan)
+            </td>
+            <td>
+                <a asp-action="SuaKhachHang" asp-route-id="@item.MaKh">Edit</a> |
+                <a asp-action="ChiTietKhachHang" asp-route-id="@item.MaKh">Details</a> |
+                <a asp-action="XoaKhachHang" asp-route-id="@item.MaKh">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
