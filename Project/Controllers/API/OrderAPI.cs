@@ -8,14 +8,23 @@ namespace BTLWEB.Controllers.API
 	[ApiController]
 	public class OrderAPI : ControllerBase
 	{
-		QuanLyBanHang2Context db = new QuanLyBanHang2Context();
+		#region Fields 
+		private readonly QuanLyBanHangContext _context;
+		#endregion
+
+		#region Constructors 
+		public OrderAPI(QuanLyBanHangContext context)
+		{
+			_context = context;
+		}
+		#endregion
 
 
 		[HttpGet]
 		public IActionResult GetAllOrder()
 		{
-			var lstOrders = db.Hdbans.ToList();
-			var totalOrder = db.Hdbans.Count();
+			var lstOrders = _context.Hdbans.ToList();
+			var totalOrder = _context.Hdbans.Count();
 
 			var response = new
 			{
@@ -38,7 +47,7 @@ namespace BTLWEB.Controllers.API
 			{
 				return BadRequest(new { message = " object is null" });
 			}
-			var cart = db.GioHangs.SingleOrDefault(x => x.TenTaiKhoan.Equals(userName));
+			var cart = _context.GioHangs.SingleOrDefault(x => x.TenTaiKhoan.Equals(userName));
 			if (cart == null)
 			{
 				return BadRequest(new { message = " object is null" });
@@ -46,8 +55,8 @@ namespace BTLWEB.Controllers.API
 
 			try
 			{
-				db.Hdbans.Add(hdban);
-				db.SaveChanges();
+				_context.Hdbans.Add(hdban);
+				_context.SaveChanges();
 				return CreatedAtAction(nameof(getOrderById), new { id = hdban.MaHdb }, hdban);
 			}
 			catch
@@ -59,7 +68,7 @@ namespace BTLWEB.Controllers.API
 
 		public IActionResult getOrderById(int id)
 		{
-			var hdb = db.Hdbans.SingleOrDefault(x => x.MaHdb.Equals(id));
+			var hdb = _context.Hdbans.SingleOrDefault(x => x.MaHdb.Equals(id));
 			if (hdb == null)
 			{
 				return BadRequest(new { message = "object is null" });

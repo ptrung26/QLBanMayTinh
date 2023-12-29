@@ -32,32 +32,27 @@
                 </div>
                 <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                     <h1 class="mb-4">Register</h1>
-                    @*<form method="post" asp-controller="Access" asp-action="Login">*@
-                    @using (Html.BeginForm("Register", "Access", FormMethod.Post, new { id = "registerForm" }))
-                    {
+                    <form method="post" asp-controller="Access" asp-action="Login">
                         <!-- Email input -->
                         <p class="form__text-red mb-2" id="error-name" style="font-size:13px;color: red;"></p>
                         <div class="form-outline mb-4">
-                            @Html.TextBoxFor(x=>x.TenTaiKhoan, new{@class="form-control form-control-lg",  @id = "username" ,required = "required", autofocus="autofocus" })
-                            @*  <input type="text" id="username" class="form-control form-control-lg" />*@
+                             <input type="text" name="username" class="form-control form-control-lg" />
                             <label class="form-label" for="username">Username</label>
                         </div>
-
                         <p class="form__text-red mb-3" id="error-password" style="font-size:13px;color: red;"></p>
                         <!-- Password input -->
                         <div class="form-outline mb-4">
-                            @Html.TextBoxFor(x=>x.MatKhau, new{@class="form-control form-control-lg", @id = "password", type="password"})
-                            @*<input type="password" id="password" class="form-control form-control-lg" />*@
+                            <input type="password" name="password" class="form-control form-control-lg" />
                             <label class="form-label" for="password">Password</label>
                         </div>
                         <div class="form-outline mb-4">
-                            <input type="password" id="confirm-pasowrd" class="form-control form-control-lg" />
+                            <input type="password" name="confirm-pasowrd" class="form-control form-control-lg" />
                             <label class="form-label" for="confirmPassword">Password confirm</label>
                         </div>
                         <!-- Submit button -->
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
                     }
-                    @* </form>*@
+                    </form>
                 </div>
             </div>
         </div>
@@ -66,60 +61,7 @@
     <!-- MDB -->
     <script type="text/javascript" src="../md5/js/mdb.min.js"></script>
     <!-- Custom scripts -->
-    <script type="text/javascript"></script>
-    <script>
-        // REGISTER
-
-    const Validiation = () =>  {
-            let name = document.getElementById('username').value;
-            let check_error_name = document.getElementById('error-name');
-          
-
-            if (name == '') {
-                check_error_name.innerHTML = '* Họ tên không được để trống!'
-                return false; 
-            }
-
-            check_error_name.innerHTML = '';
-            
-            let pass = document.getElementById('password').value;
-            let check_error_pass = document.getElementById('error-password');
-            let regexPass = /\ /;
-
-            if (pass == '') {
-                check_error_pass.innerHTML = '* Mật khẩu không được để trống!';
-                return false; 
-            }
-            if (regexPass.test(pass)) {
-                check_error_pass.innerHTML = '* Mật khẩu không được chứa dấu cách!';
-                return false;
-            } 
-            
-            if (pass.length < 6) {
-                check_error_pass.innerHTML = 'Mật khẩu phải lớn hơn 6 kí tự!';
-                return false;
-            }
-
-            check_error_pass.innerHTML = '';
-
-            let confirmPass = document.getElementById('confirm-pasowrd').value;
-            let check_error_cfrm_pass = document.getElementById('error-password');
-            if (confirmPass !== pass)  {
-                check_error_cfrm_pass.innerHTML = 'Mật khẩu không trùng nhau'; 
-                return false; 
-            }
-
-            return true; 
-
-    }
-
-        const form = document.getElementById('registerForm');
-
-        form.onsubmit = (event) => {
-            if (!Validiation()) {
-                event.preventDefault();
-            }
-        };
+    <script src="~/js/access.js">
     </script>
 </body>
 </html>

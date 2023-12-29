@@ -1,4 +1,5 @@
 ﻿using BTLWEB.Models;
+using BTLWEB.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,36 +9,47 @@ namespace BTLWEB.Controllers.API
 	[ApiController]
 	public class ProductAPI : ControllerBase
 	{
-		QuanLyBanHang2Context db = new QuanLyBanHang2Context();
+		#region Fields 
+		private readonly IProductServices _productsService;
+		#endregion
+
+		#region Constructors 
+		public ProductAPI(IProductServices productServices)
+		{
+			_productsService = productServices;
+		}
+		#endregion
+
+		#region Methods 
 		[HttpGet("newproducts")]
 		public List<Hang> GetNewProducts()
 		{
-			var lstSp = db.Hangs.Take(5).ToList();
+			var lstSp = _productsService.GetNewProducts();
 			return lstSp;
 		}
 
 
 		[HttpGet("topsellproducts")]
-		public List<Hang> getTopSellPrdoucts(int page = 1, int pageSize = 4)
+		public List<Hang> GetTopSellPrdoucts()
 		{
-			var lstSp = db.Hangs.OrderBy(x => x.SoLanMua).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+			var lstSp = _productsService.GetTopSellProducts();
 			return lstSp;
 		}
 
 		[HttpGet("{id}")]
-		public Hang getProductByID(string id)
+		public Hang GetById(string id)
 		{
-			var sp = db.Hangs.SingleOrDefault(x => x.MaHang == id);
+			var sp = _productsService.GetById(id);
 			return sp;
 		}
 
 		[HttpGet("related/{mahang}")]
-		public List<Hang> getAllProductsRelated(string mahang)
+		public List<Hang> GetAllProductsRelated(string mahang)
 		{
-			var sp = db.Hangs.Single(x => x.MaHang == mahang);
-			var lstSp = db.Hangs.Where(x => x.MaDanhMuc == sp.MaDanhMuc).ToList();
+			var lstSp = _productsService.GetAllProductsRelated(mahang);
 			return lstSp;
 		}
+		#endregion
 
 	}
 }

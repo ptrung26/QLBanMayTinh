@@ -5,12 +5,23 @@ namespace BTLWEB.ViewComponents
 {
 	public class FilterCategoryViewComponent : ViewComponent
 	{
-		QuanLyBanHang2Context db = new QuanLyBanHang2Context();
-		public FilterCategoryViewComponent() { }
+		#region Fields 
+		private readonly QuanLyBanHangContext _context;
+		#endregion
+
+		#region Constructors 
+		public FilterCategoryViewComponent(QuanLyBanHangContext context)
+		{
+			_context = context;
+		}
+		#endregion
+
+		#region Methods
 		public IViewComponentResult Invoke()
 		{
-			var lstCate = db.DanhMucs.ToList();
+			var lstCate = _context.DanhMucs.ToList();
 			return View(lstCate);
 		}
+		#endregion
 	}
 }

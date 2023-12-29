@@ -55,7 +55,7 @@
 				<!-- /Product thumb imgs -->
 				<!-- Product details -->
 				<div class="col-md-5">
-					<div class="product-details">
+					<div class="product-details product" data-id="@Model.MaHang" data-image="@Model.AnhDaiDien">
 						<h2 class="product-name">@Model.TenHang.ToUpper()</h2>
 						<div>
 							<div class="product-rating">
@@ -84,8 +84,6 @@
 							</div>
 							<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 						</div>
-
-
 						<ul class="product-links">
 							<li>Category:</li>
 						<li><a href="../danhmucsanpham?madanhmuc=@ViewBag.MaDanhMuc">@ViewBag.TenDanhMuc</a></li>
@@ -305,40 +303,6 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row" id="productRelated">
-
-				@*<div class="col-md-12">
-					<div class="section-title text-center">
-						<h3 class="title">Related Products</h3>
-					</div>
-				</div>*@
-
-				<!-- product -->
-				@*<div class="col-md-3 col-xs-6">
-					<div class="product">
-						<div class="product-img">
-							<img src="../resources/img/product01.png" alt="">
-							<div class="product-label">
-								<span class="sale">-30%</span>
-							</div>
-						</div>
-						<div class="product-body">
-							<p class="product-category">Category</p>
-							<h3 class="product-name"><a href="#">product name goes here</a></h3>
-							<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-							<div class="product-rating">
-							</div>
-							<div class="product-btns">
-								<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-								<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-								<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-							</div>
-						</div>
-						<div class="add-to-cart">
-							<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-						</div>
-					</div>
-				</div>*@
-				<!-- /product -->
 			</div>
 			<!-- /row -->
 		</div>
@@ -381,78 +345,4 @@
 	</div>
 	<!-- /NEWSLETTER -->
 
-<script>
-
-	const handleToAddToCard = () => {
-		
-		let quantity = $("input[type='number']").val();
-		console.log(quantity);
-		let location = window.location.href;
-		let productId = location.split("/").pop();
-		if (productId == null || quantity == null) {
-			return ; 
-		}
-		let cartPostUrl = `https://localhost:7019/api/cart?mahang=${productId}&quantity=${quantity}`;
-		$.ajax({
-			type: "POST", 
-			url: cartPostUrl,
-			dataType: 'json',
-			contentType: "application/json",
-			success : () => {
-				alert("Thêm vào giỏ hàng thành công");
-			}
-		})
-	}
-
-	const showProductsRelated = () => {
-		let location = window.location.href;
-		let productId = location.split("/").pop();
-		let url = `https://localhost:7019/api/productapi/related/${productId}`;
-		$.ajax({
-			type : "GET", 
-			url : url,
-			dataType: "json", 
-			success : (data) => {
-				let str = `<div class="col-md-12">
-									<div class="section-title text-center">
-										<h3 class="title">Related Products</h3>
-									</div>
-								</div>`
-				$.each(data, (key, val) => {
-					str += `<div class="col-md-3 col-xs-6">
-								<div class="product">
-									<div class="product-img">
-											<img src="../imageBTL/${val.anhDaiDien}" alt="">
-										<div class="product-label">
-											<span class="sale">-30%</span>
-										</div>
-									</div>
-									<div class="product-body">
-										<h3 class="product-name"><a href="product/${val.maHang}">${val.tenHang}</a></h3>
-												<h4 class="product-price">${formatMoney(0.7*val.donGiaBan)} <del class="product-old-price">${formatMoney(val.donGiaBan)}</del></h4>
-										<div class="product-rating">
-										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-									</div>
-								</div>
-							</div>`
-
-				})
-				$("#productRelated").html(str);
-			}
-		})
-	}
-	$(document).ready(function () {
-		showProductsRelated(); 
-		$(".add-to-cart-btn").click(function() {
-			handleToAddToCard(); 
-		}) 
-	})
-</script>
+<script src="~/js/home.js"></script>

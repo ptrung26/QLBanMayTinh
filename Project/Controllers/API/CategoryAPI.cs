@@ -8,13 +8,24 @@ namespace BTLWEB.Controllers.API
 	[ApiController]
 	public class CategoryAPI : ControllerBase
 	{
-		QuanLyBanHang2Context db = new QuanLyBanHang2Context();
+		#region Fields 
+		private readonly QuanLyBanHangContext _context;
+		#endregion
 
+		#region Constructors 
+		public CategoryAPI(QuanLyBanHangContext context)
+		{
+			_context = context;
+		}
+		#endregion
+
+		#region Methods 
 		[HttpGet]
 		public List<DanhMuc> GetAllCategories()
 		{
-			var lstDM = db.DanhMucs.OrderBy(x => x.TenDanhMuc).ToList();
+			var lstDM = _context.DanhMucs.OrderBy(x => x.TenDanhMuc).ToList();
 			return lstDM;
 		}
+		#endregion
 	}
 }
