@@ -1,4 +1,5 @@
 ﻿using BTLWEB.Models;
+using BTLWEB.Models.API;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BTLWEB.Services.Interfaces
@@ -10,5 +11,8 @@ namespace BTLWEB.Services.Interfaces
 		public Task ForgotPassword(string username);
 
 		public int ResetPassword(string username, string password);
+
+		public UserDTO GetInfo(string username);
+		public KhachHang GetInfoKH(string username);
 	}
 }

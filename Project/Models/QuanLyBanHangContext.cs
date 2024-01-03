@@ -131,8 +131,9 @@ public partial class QuanLyBanHangContext : DbContext
 		modelBuilder.Entity<ChiTietHdb>(entity =>
 		{
 			entity
-				.HasNoKey()
 				.ToTable("ChiTietHDB");
+
+			entity.HasKey(e => new { e.MaHdb, e.MaHang });
 
 			entity.Property(e => e.MaHang).HasMaxLength(10);
 			entity.Property(e => e.MaHdb)

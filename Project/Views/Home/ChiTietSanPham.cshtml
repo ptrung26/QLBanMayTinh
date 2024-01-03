@@ -34,7 +34,7 @@
 						@foreach(var item in ViewBag.lstAnh)
 						{
 							<div class="product-preview">
-								<img src="../imageBTL/@item.TenAnh" alt="">
+								<img src="../template/img/@item.TenAnh" alt="">
 							</div>
 						}
 						
@@ -47,7 +47,7 @@
 						@foreach(var item in ViewBag.lstAnh)
 						{
 							<div class="product-preview">
-								<img src="../imageBTL/@item.TenAnh" alt="">
+								<img src="../template/img/@item.TenAnh" alt="">
 							</div>
 						}
 					</div>
@@ -55,7 +55,7 @@
 				<!-- /Product thumb imgs -->
 				<!-- Product details -->
 				<div class="col-md-5">
-					<div class="product-details product" data-id="@Model.MaHang" data-image="@Model.AnhDaiDien">
+					<div class="product-details" id="product-detail-@Model.MaHang.ToString()" data-id="@Model.MaHang.ToString()" data-image="@Model.AnhDaiDien.ToString()" data-price="@Model.DonGiaBan.ToString()" data-name="@Model.TenHang.ToString()">
 						<h2 class="product-name">@Model.TenHang.ToUpper()</h2>
 						<div>
 							<div class="product-rating">
@@ -82,7 +82,7 @@
 									<span class="qty-down">-</span>
 								</div>
 							</div>
-							<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+							<button class="add-to-cart-btn" onclick="handleAddProductToCart(event, '@Model.MaHang')"><i class="fa fa-shopping-cart"></i> add to cart</button>
 						</div>
 						<ul class="product-links">
 							<li>Category:</li>

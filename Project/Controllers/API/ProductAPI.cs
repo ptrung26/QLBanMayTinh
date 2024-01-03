@@ -49,6 +49,13 @@ namespace BTLWEB.Controllers.API
 			var lstSp = _productsService.GetAllProductsRelated(mahang);
 			return lstSp;
 		}
+
+		[HttpGet("filters")]
+		public object FilterProducts(string? query, string? madanhmuc, int? priceMin, int? priceMax, int page = 1)
+		{
+			var lstSp = _productsService.FilterProducts(query, madanhmuc, priceMin, priceMax, page);
+			return lstSp;
+		}
 		#endregion
 
 	}

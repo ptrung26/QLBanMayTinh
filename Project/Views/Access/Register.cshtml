@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-@model TaiKhoanUser
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +10,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Material Design for Bootstrap</title>
     <!-- MDB icon -->
-    <link rel="icon" href="../md5/img/mdb-favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../templateLogin/img/mdb-favicon.ico" type="image/x-icon" />
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -18,8 +18,8 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
     <!-- MDB -->
-    <link rel="stylesheet" href="../md5/css/mdb.min.css" />
-    <link rel="stylesheet" href="../_login/style.css" />
+    <link rel="stylesheet" href="../templateLogin/css/mdb.min.css" />
+    <link rel="stylesheet" href="../templateLogin/css/style.css" />
 </head>
 <body>
     <!-- Start your project here-->
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                     <h1 class="mb-4">Register</h1>
-                    <form method="post" asp-controller="Access" asp-action="Login">
+                    <form id="registerForm">
                         <!-- Email input -->
                         <p class="form__text-red mb-2" id="error-name" style="font-size:13px;color: red;"></p>
                         <div class="form-outline mb-4">
@@ -46,12 +46,12 @@
                             <label class="form-label" for="password">Password</label>
                         </div>
                         <div class="form-outline mb-4">
-                            <input type="password" name="confirm-pasowrd" class="form-control form-control-lg" />
+                            <input type="password" name="confirm-password" class="form-control form-control-lg" />
                             <label class="form-label" for="confirmPassword">Password confirm</label>
                         </div>
                         <!-- Submit button -->
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
-                    }
+         
                     </form>
                 </div>
             </div>
@@ -59,7 +59,8 @@
     </section>
     <!-- End your project here-->
     <!-- MDB -->
-    <script type="text/javascript" src="../md5/js/mdb.min.js"></script>
+    <script type="text/javascript" src="../templateLogin/js/mdb.min.js"></script>
+      <script src="~/templateLogin/js/jquery.min.js"></script>
     <!-- Custom scripts -->
     <script src="~/js/access.js">
     </script>

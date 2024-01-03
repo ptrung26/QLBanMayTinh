@@ -77,6 +77,10 @@
             "X.PagedList.Mvc.Core": {
               "target": "Package",
               "version": "[8.4.7, )"
+            },
+            "Z.EntityFramework.Extensions.EFCore": {
+              "target": "Package",
+              "version": "[7.101.1.3, )"
             }
           },
           "imports": [

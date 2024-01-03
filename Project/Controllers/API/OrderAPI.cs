@@ -1,80 +1,49 @@
 ﻿using BTLWEB.Models;
+using BTLWEB.Models.API;
+using BTLWEB.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BTLWEB.Controllers.API
 {
-	[Route("api/order")]
-	[ApiController]
-	public class OrderAPI : ControllerBase
-	{
-		#region Fields 
-		private readonly QuanLyBanHangContext _context;
-		#endregion
+    [Route("api/order")]
+    [ApiController]
+    public class OrderAPI : ControllerBase
+    {
+        #region Fields 
+        private readonly IOrderServices _orderServices;
+        #endregion
 
-		#region Constructors 
-		public OrderAPI(QuanLyBanHangContext context)
-		{
-			_context = context;
-		}
-		#endregion
+        #region Constructors 
+        public OrderAPI(IOrderServices orderServices)
+        {
+            _orderServices = orderServices;
+        }
+        #endregion
 
+        [HttpPost]
+        public async Task<IActionResult> AddNewOrder(List<ChiTietHdb> cthdbs)
+        {
+            var result = await _orderServices.Insert(cthdbs);
+            if (result > 0)
+            {
+                return StatusCode(201, new ActionResultService(true, "", StatusHttpCode.Created));
+            }
+            else
+            {
+                return BadRequest(new ActionResultService(false, "Thêm không thành công", StatusHttpCode.BadRequest));
+            }
+        }
 
-		[HttpGet]
-		public IActionResult GetAllOrder()
-		{
-			var lstOrders = _context.Hdbans.ToList();
-			var totalOrder = _context.Hdbans.Count();
+        public IActionResult GetOrderById(string id)
+        {
+            var hdb = _orderServices.GetOrderById(id);
+            if (hdb == null)
+            {
+                return BadRequest(new ActionResultService(false, "Thêm không thành công", StatusHttpCode.BadRequest));
+            }
 
-			var response = new
-			{
-				data = lstOrders,
-				total = totalOrder,
-			};
-
-			return Ok(response);
-		}
-
-		[HttpPost]
-		public IActionResult addNewOrder(Hdban hdban)
-		{
-			if (hdban == null)
-			{
-				return BadRequest(new { message = "object is null" });
-			}
-			var userName = HttpContext.Session.GetString("UserName");
-			if (userName == null)
-			{
-				return BadRequest(new { message = " object is null" });
-			}
-			var cart = _context.GioHangs.SingleOrDefault(x => x.TenTaiKhoan.Equals(userName));
-			if (cart == null)
-			{
-				return BadRequest(new { message = " object is null" });
-			}
-
-			try
-			{
-				_context.Hdbans.Add(hdban);
-				_context.SaveChanges();
-				return CreatedAtAction(nameof(getOrderById), new { id = hdban.MaHdb }, hdban);
-			}
-			catch
-			{
-				return BadRequest(new { message = "Add new order failed" });
-			}
-
-		}
-
-		public IActionResult getOrderById(int id)
-		{
-			var hdb = _context.Hdbans.SingleOrDefault(x => x.MaHdb.Equals(id));
-			if (hdb == null)
-			{
-				return BadRequest(new { message = "object is null" });
-			}
-
-			return Ok(hdb);
-		}
-	}
+            return Ok(new ActionResultService(true, "", StatusHttpCode.Success, hdb));
+        }
+    }
 }

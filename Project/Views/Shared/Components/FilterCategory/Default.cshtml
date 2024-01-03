@@ -15,8 +15,7 @@
 	const setAllCbChecked = () => {
 		const queryString = window.location.search
 		const urlParams = new URLSearchParams(queryString.split('?')[1]);
-		for (const entry of urlParams.entries()) {
-			const [param, value] = entry;
+		for (const [param, value] of urlParams.entries()) {
 			for (v of value.split(',')) {
 				$(`input[type="checkbox"][value='${v}']`).prop("checked", true);
 			}
@@ -25,10 +24,10 @@
 	}
 
 	const setFilterProductsByCB = (type, checkbox) => {
-		const query = $(checkbox).val().replace(/[\n\t]/g, '');
+		const query = $(checkbox).val().trim(); 
 		const queryString = window.location.search
 		const urlParams = new URLSearchParams(queryString.split('?')[1]);
-
+		urlParams.set("page",1 ); 
 		if (urlParams.get(type) == null) {
 			urlParams.append(type, query);
 			const newUrl = window.location.pathname + '?' + urlParams.toString();
@@ -39,14 +38,17 @@
 		const valueTypes = urlParams.get(type).split(',');
 		if (checkbox.checked) {
 			valueTypes.push(query);
-			console.log(valueTypes);
 			urlParams.set(type, valueTypes.join(","));
 		} else {
 			const newValueTypes = valueTypes.filter(x => x !== query);
-			urlParams.set(type, newValueTypes.join(","));
-			console.log(newValueTypes);
+			if(newValueTypes.length > 0) {
+				urlParams.set(type, newValueTypes.join(","));
+			} else {
+				urlParams.delete(type); 
+			}
 
 		}
+		 
 		const newUrl = window.location.pathname + '?' + urlParams.toString();
 		window.location.href = newUrl;
 	}

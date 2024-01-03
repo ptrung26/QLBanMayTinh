@@ -1,23 +1,26 @@
-﻿/**
+﻿
+/**
  * Add product to cart 
  */
-const handleAddProductToCart = () => {
-    let parent = $(this).parents(".product");
-    console.log(parent);
+const handleAddProductToCart = (event, parentId) => {
+    let parent = $(event.target).parents(`#product-detail-${parentId}`)[0];
+    let quantity = $(parent).find("input[type='number']").val();
+    let productId = $(parent).attr("data-id");
+    let productImage = $(parent).attr("data-image");
+    let productPrice = $(parent).attr("data-price");
+    let productName = $(parent).attr("data-name");
 
-    /* let quantity = parent.find("input[type='number']").val();
-     let productId = parent.attr("data-id");
-     let productImage = parent.attr("data-iamge");
- 
-     let cartItem = {
-         productId,
-         quantity,
-         productImage
-     };
-     let cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
-     cartItems.push(cartItem);
-     sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
-     alert("Thêm vào giỏ hàng thành công");*/
+    let cartItem = {
+        productId,
+        quantity,
+        productImage,
+        productPrice,
+        productName
+    };
+    let cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
+    cartItems.push(cartItem);
+    sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+    alert("Thêm vào giỏ hàng thành công");
 };
 
 /**
@@ -39,9 +42,9 @@ const showProductsRelated = () => {
 								</div>`
             $.each(data, (key, val) => {
                 str += `<div class="col-md-3 col-xs-6">
-								<div class="product">
+								<div class="product" id="product-detail-${val.maHang}" data-id='${val.maHang}' data-image='${val.anhDaiDien}' data-price='${val.donGiaBan}' data-name='${val.tenHang}'>
 									<div class="product-img">
-											<img src="../imageBTL/${val.anhDaiDien}" alt="">
+											<img src="../template/img/${val.anhDaiDien}" alt="">
 										<div class="product-label">
 											<span class="sale">-30%</span>
 										</div>
@@ -58,7 +61,7 @@ const showProductsRelated = () => {
 										</div>
 									</div>
 									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										<button class="add-to-cart-btn" onclick="handleAddProductToCart(event, '${val.MaHang}')><i class="fa fa-shopping-cart"></i> add to cart</button>
 									</div>
 								</div>
 							</div>`
@@ -72,7 +75,5 @@ const showProductsRelated = () => {
 
 $(document).ready(function () {
     showProductsRelated();
-    $(".add-to-cart-btn").click(function () {
-        handleAddProductToCart();
-    })
+
 });

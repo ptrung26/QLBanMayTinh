@@ -14,20 +14,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="../resources/css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="../template/css/bootstrap.min.css" />
 
 	<!-- Slick -->
-	<link type="text/css" rel="stylesheet" href="../resources/css/slick.css" />
-	<link type="text/css" rel="stylesheet" href="../resources/css/slick-theme.css" />
+	<link type="text/css" rel="stylesheet" href="../template/css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="../template/css/slick-theme.css" />
 
 	<!-- nouislider -->
-	<link type="text/css" rel="stylesheet" href="../resources/css/nouislider.min.css" />
+	<link type="text/css" rel="stylesheet" href="../template/css/nouislider.min.css" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="../resources/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../template/css/font-awesome.min.css">
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="../resources/css/style.css" />
+	<link type="text/css" rel="stylesheet" href="../template/css/style.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -46,19 +46,20 @@
 			<div class="container">
 				<ul class="header-links pull-left">
 					<li><a href="#"><i class="fa fa-phone"></i> +8412345678</a></li>
-					<li><a href="#"><i class="fa fa-envelope-o"></i> dinhanhtien05082002@gmail.com</a></li>
-					<li><a href="#"><i class="fa fa-map-marker"></i>210 Quang Trung- Hà Đông - Hà Nội</a></li>
+					<li><a href="#"><i class="fa fa-envelope-o"></i> trungpvdev26@gmail.com</a></li>
+					<li><a href="#"><i class="fa fa-map-marker"></i>Thường Tín - Hà Nội</a></li>
 				</ul>
 				<ul class="header-links pull-right">
-					@if (Accessor.HttpContext.Session.GetString("UserName") == null)
-					{
-						<li><a href="../access/login"><i class="fa fa-user-o"></i>Sign in</a></li>
-					}
-					else
-					{
-						<li><a href="#"><i class="fa fa-user-o"></i>@(Accessor.HttpContext.Session.GetString("UserName"))</a></li>
-						<li><a asp-controller="access" asp-action="logout">Sign out</a></li>
-					}
+					<li id="sign-in"><a href="../access/login"><i class="fa fa-user-o"></i>Sign in</a></li>
+					<li id="sign-out" style="display:none;">
+						<a href="#" >
+							<i class="fa fa-user-o"></i>
+							<span style="color:#fff;margin-right:8px;" class="username"></span>
+						</a>
+							
+						<a id="btn-logout" style="cursor:pointer">Sign out</a>
+					</li>
+					
 				</ul>
 			</div>
 		</div>
@@ -96,7 +97,7 @@
 								<a href="../cart" aria-expanded="true">
 									<i class="fa fa-shopping-cart"></i>
 									<span>Your Cart</span>
-									<div class="qty"></div>
+									<div style="display:none;" class="qty"></div>
 								</a>
 							</div>
 							<!-- /Cart -->
@@ -205,54 +206,19 @@
 		<!-- /bottom footer -->
 	</footer>
 	<!-- /FOOTER -->
+
 	<!-- jQuery Plugins -->
-	<script src="../resources/js/jquery.min.js"></script>
-	<script src="../resources/js/bootstrap.min.js"></script>
-	<script src="../resources/js/slick.min.js"></script>
-	<script src="../resources/js/nouislider.min.js"></script>
-	<script src="../resources/js/jquery.zoom.min.js"></script>
-	<script src="../resources/js/main.js"></script>
-	<script src="../resources/js/pagination.js"></script>
-	<script>
-		const formatMoney = (amount) => {
-			return new Intl.NumberFormat('vi-VN', {
-				style: 'currency',
-				currency: 'VND'
-			}).format(amount);
-		}	
-		const getAllCartProducts = () => {
-			let cartGetUrl = `https://localhost:7019/api/cart`;
-			$.ajax({
-				type: "GET",
-				url: cartGetUrl,
-				dataType: "json",
-				success: (data) => {	
-					if(data.length > 0)  {
-						$(".qty").css("opacity", 1);
-						$(".qty").text(data.length); 
-					}
-					
-				}
-			})
-		}
-		const handleSearchInput = () => {
-			let query = $("#search-input").val().trim();
-			let url = "";
-			if(query == "") {
-				url = `https://localhost:7019/danhmucsanpham`;
-			}else {
-				url = `https://localhost:7019/danhmucsanpham?query=${query}`;
-			}
-			window.location.href = url; 
-		}
-		$(document).ready(function () {
-			$(".qty").css("opacity", 0);
-			getAllCartProducts(); 
-			$(".search-btn").click(function() {
-				handleSearchInput(); 
-			})
-		})
-	</script>
+	<script src="../template/js/jquery.min.js"></script>
+	<script src="../template/js/bootstrap.min.js"></script>
+	<script src="../template/js/slick.min.js"></script>
+	<script src="../template/js/nouislider.min.js"></script>
+	<script src="../template/js/jquery.zoom.min.js"></script>
+	<script src="../template/js/pagination.js"></script>
+	<script src="../template/js/main.js"></script>
+
+	<!-- Main JS -->
+	<script src="~/js/helpers.js"></script>
+	<script src="~/js/header.js"></script>
 
 </body>
 </html>
